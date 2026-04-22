@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXO — IA para negocios locales</title>
+<meta name="description" content="En NEXO instalamos inteligencia artificial en tu empresa para que atienda clientes, gestione consultas y automatice tareas repetitivas — sin que tengas que entender nada de tecnología.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  :root {
+    /* Color Palette */
+    --bg-main: #030712;
+    --bg-card: rgba(17, 24, 39, 0.6);
+    --bg-card-hover: rgba(31, 41, 55, 0.8);
+    --border-light: rgba(255, 255, 255, 0.06);
+    --border-glow: rgba(0, 229, 195, 0.4);
+    
+    --text-main: #f9fafb;
+    --text-muted: #9ca3af;
+    
+    /* Accents */
+    --accent-cyan: #00e5c3;
+    --accent-blue: #0070f3;
+    --accent-indigo: #6366f1;
+    --accent-gradient: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    
+    /* Typography */
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* OPTIMIZED BACKGROUND GLOWS (No heavy blur filters) */
+  .ambient-glow {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 20s infinite alternate ease-in-out;
+  }
+  .glow-1 {
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+    top: -200px; left: -200px;
+  }
+  .glow-2 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, var(--accent-indigo) 0%, transparent 70%);
+    bottom: -200px; right: -200px;
+    animation-delay: -5s;
+  }
+
+  @keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.1); }
+  }
+
+  section {
+    position: relative;
+    z-index: 10;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* UTILS */
+  .text-gradient {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    /* Prevent cutting off descenders like 'g' */
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: -0.25em;
+    margin-bottom: -0.25em;
+    display: inline-block;
+    line-height: 1.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 0;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+  }
+  nav .inner {
+    max-width: 1140px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--text-main);
+  }
+  .logo span {
+    color: var(--accent-cyan);
+  }
+  
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .btn-sm { padding: 10px 20px; font-size: 0.9rem; }
+  .btn-lg { padding: 16px 32px; font-size: 1.05rem; }
+  
+  .btn-primary {
+    background: var(--accent-gradient);
+    color: #000;
+    box-shadow: 0 4px 20px rgba(0, 229, 195, 0.25);
+    border: none;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 229, 195, 0.4);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-light);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 229, 195, 0.05);
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 140px 0 80px;
+    position: relative;
+  }
+  
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,229,195,0.05);
+    border: 1px solid rgba(0,229,195,0.2);
+    color: var(--accent-cyan);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+  }
+  .badge i {
+    width: 14px; height: 14px;
+  }
+  
+  h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    padding-bottom: 0.15em;
+    max-width: 800px;
+  }
+  
+  .hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  
+  .hero-stats {
+    display: flex; gap: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border-light);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-item strong {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    line-height: 1.2;
+  }
+  .stat-item span { 
+    font-size: 0.9rem; 
+    color: var(--text-muted); 
+    font-weight: 500;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-label i { width: 16px; height: 16px; }
+  
+  h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    padding-bottom: 0.15em;
+  }
+  .section-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  /* GLOBAL CARD STYLE */
+  .glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s ease;
+  }
+  .glass-card:hover {
+    border-color: var(--border-glow);
+    background: var(--bg-card-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px -10px rgba(0, 229, 195, 0.1);
+  }
+
+  /* PROBLEMA */
+  #problema {
+    padding: 120px 0;
+  }
+  .problem-grid {
+    display: grid;
+    /* Force 2x2 grid for symmetry */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+  }
+  .problem-card {
+    padding: 32px;
+    position: relative;
+    /* Removed overflow: hidden so shadows and pseudo elements behave well without cutting letters */
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.6), transparent);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    border-radius: 16px 16px 0 0;
+  }
+  .problem-card:hover::before { opacity: 1; }
+  .problem-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; height: 48px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+  .problem-card strong { 
+    display: block; 
+    font-family: var(--font-heading);
+    font-size: 1.15rem; 
+    margin-bottom: 8px; 
+    font-weight: 700; 
+    padding-bottom: 0.1em;
+  }
+  .problem-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+  /* TRANSFORMACION (Colorful Redesign) */
+  #transformacion {
+    padding: 120px 0;
+    position: relative;
+  }
+  .comparison-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: 20px;
+    margin-top: 60px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+  }
+  @media (max-width: 768px) {
+    .comparison-container { grid-template-columns: 1fr; }
+  }
+  .comparison-column {
+    padding: 40px;
+  }
+  .comparison-column.before {
+    background: rgba(239, 68, 68, 0.03);
+    border-right: 1px solid rgba(255,255,255,0.05);
+  }
+  .comparison-column.after {
+    background: linear-gradient(180deg, rgba(0, 229, 195, 0.08), rgba(0, 112, 243, 0.08));
+    position: relative;
+    border-radius: 0 20px 20px 0;
+  }
+  .comparison-column.after::before {
+    content: '';
+    position: absolute; inset: -1px;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 0 20px 20px 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 30px rgba(0, 229, 195, 0.1);
+  }
+  @media (max-width: 768px) {
+    .comparison-column.before { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .comparison-column.after { border-radius: 0 0 20px 20px; }
+    .comparison-column.after::before { border-radius: 0 0 20px 20px; }
+  }
+  .column-header {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .before .column-header { color: #ef4444; }
+  .after .column-header { color: var(--accent-cyan); }
+  
+  .comparison-list { list-style: none; }
+  .comparison-list li {
+    font-size: 1.05rem;
+    padding: 14px 0;
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .comparison-list li:last-child { border-bottom: none; }
+  .before .comparison-list li { color: var(--text-muted); }
+  .after .comparison-list li { color: var(--text-main); font-weight: 500; }
+  .before .comparison-list li i { color: #ef4444; flex-shrink: 0; }
+  .after .comparison-list li i { color: var(--accent-cyan); flex-shrink: 0; }
+
+  /* SERVICIO */
+  #servicio {
+    padding: 120px 0;
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .service-card {
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .service-icon-wrapper {
+    width: 60px; height: 60px;
+    background: rgba(0, 229, 195, 0.1);
+    border: 1px solid rgba(0, 229, 195, 0.2);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-cyan);
+    margin-bottom: 24px;
+    box-shadow: inset 0 0 20px rgba(0,229,195,0.05);
+  }
+  .service-card h3 { 
+    font-family: var(--font-heading); 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    margin-bottom: 12px; 
+    padding-bottom: 0.1em;
+  }
+  .service-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+  /* BENEFICIOS */
+  #beneficios {
+    padding: 120px 0;
+    position: relative;
+  }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .benefit-item {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 24px;
+  }
+  .benefit-icon {
+    width: 48px; height: 48px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: var(--accent-indigo);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .benefit-item:hover .benefit-icon {
+    background: var(--accent-indigo);
+    color: #fff;
+  }
+  .benefit-item h4 { 
+    font-family: var(--font-heading);
+    font-weight: 700; 
+    margin-bottom: 6px; 
+    font-size: 1.1rem; 
+    padding-bottom: 0.1em;
+  }
+  .benefit-item p { font-size: 0.95rem; color: var(--text-muted); }
+
+  /* PROCESO */
+  #proceso {
+    padding: 120px 0;
+  }
+  .steps {
+    margin-top: 60px;
+    position: relative;
+    max-width: 800px;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 28px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent-cyan), rgba(0,229,195,0.1));
+  }
+  .step {
+    display: flex; gap: 32px; align-items: flex-start;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .step-num {
+    width: 58px; height: 58px;
+    background: var(--bg-main);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0,229,195,0.2);
+  }
+  .step-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 28px;
+    flex: 1;
+  }
+  .step-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,112,243,0.1);
+    color: #5aabff;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .step-tag i { width: 12px; height: 12px; }
+  .step-content h3 { 
+    font-family: var(--font-heading); 
+    font-weight: 700; 
+    font-size: 1.25rem; 
+    margin-bottom: 8px; 
+    padding-bottom: 0.1em;
+  }
+  .step-content p { font-size: 0.95rem; color: var(--text-muted); }
+
+  /* PRECIOS */
+  #precios {
+    padding: 120px 0;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+    align-items: start;
+  }
+  @media (max-width: 992px) { 
+    .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; } 
+  }
+  .price-card {
+    padding: 40px 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .price-card.featured {
+    border-color: var(--accent-cyan);
+    background: linear-gradient(180deg, rgba(17,24,39,0.9), rgba(3,7,18,0.9));
+    box-shadow: 0 0 40px rgba(0,229,195,0.15);
+    transform: scale(1.02);
+  }
+  .price-card.featured:hover {
+    transform: scale(1.04);
+  }
+  @media (max-width: 992px) {
+    .price-card.featured { transform: scale(1); }
+    .price-card.featured:hover { transform: translateY(-4px); }
+  }
+  .featured-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--accent-gradient);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 6px 18px;
+    border-radius: 100px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .plan-name {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .plan-price {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: var(--text-main);
+  }
+  .plan-price span { font-size: 1.5rem; font-weight: 500; color: var(--text-muted); }
+  .plan-monthly {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.05);
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+  .plan-monthly strong { color: var(--accent-cyan); }
+  .plan-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .plan-features { list-style: none; margin-bottom: 40px; flex-grow: 1; }
+  .plan-features li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    padding: 10px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .plan-features li i { 
+    color: var(--accent-cyan); 
+    width: 18px; height: 18px; 
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .plan-btn {
+    width: 100%;
+  }
+  
+  .promo-banner {
+    margin-top: 60px;
+    background: linear-gradient(90deg, rgba(0,229,195,0.08), rgba(0,112,243,0.08));
+    border: 1px solid rgba(0,229,195,0.2);
+    border-radius: 16px;
+    padding: 24px 32px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .promo-banner strong { color: var(--accent-cyan); }
+  .promo-banner p { font-size: 0.95rem; color: var(--text-muted); }
+  .promo-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,229,195,0.1);
+    color: var(--accent-cyan);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* FAQS */
+  #faqs {
+    padding: 120px 0;
+  }
+  .faq-list { margin-top: 60px; max-width: 800px; }
+  .faq-item {
+    border-bottom: 1px solid var(--border-light);
+  }
+  .faq-q {
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 24px 0;
+    color: var(--text-main);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    transition: color 0.3s;
+  }
+  .faq-q:hover { color: var(--accent-cyan); }
+  .faq-q i {
+    color: var(--text-muted);
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-q i { 
+    transform: rotate(180deg); 
+    color: var(--accent-cyan);
+  }
+  .faq-a {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    padding-right: 40px;
+    padding-bottom: 24px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* CTA FINAL */
+  #cta {
+    padding: 120px 0;
+    text-align: center;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(17,24,39,0.8), rgba(3,7,18,0.9));
+    border: 1px solid var(--border-glow);
+    border-radius: 24px;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,229,195,0.1);
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,195,0.15) 0%, transparent 70%);
+    top: -300px; right: -300px;
+    pointer-events: none;
+  }
+  .cta-box h2 { max-width: 600px; margin: 0 auto 20px; }
+  .cta-box p { color: var(--text-muted); max-width: 500px; margin: 0 auto 40px; font-size: 1.1rem; }
+  
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  
+  .cta-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .cta-email a { 
+    color: var(--accent-cyan); 
+    text-decoration: none; 
+    font-weight: 500;
+  }
+  .cta-email a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border-light);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: #000;
+  }
+  footer a { color: var(--accent-cyan); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Stagger delays */
+  .delay-100 { transition-delay: 100ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-300 { transition-delay: 300ms; }
+</style>
+</head>
+<body>
+
+<div class="ambient-glow glow-1"></div>
+<div class="ambient-glow glow-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a href="#" class="logo">
+      <i data-lucide="cpu"></i>
+      NEX<span>O</span>
+    </a>
+    <a href="#cta" class="btn btn-primary btn-sm cta-nav">
+      Hablar con NEXO <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="fade-up">
+      <div class="badge">
+        <i data-lucide="sparkles"></i> Inteligencia Artificial para negocios locales
+      </div>
+      <h1>Tu negocio local, trabajando solo.<br><span class="text-gradient">Incluso cuando tú no estás.</span></h1>
+      <p class="hero-sub">En NEXO instalamos inteligencia artificial en tu empresa para que atienda clientes, gestione consultas y automatice tareas repetitivas — sin que tengas que entender nada de tecnología.</p>
+      <a href="#cta" class="btn btn-primary btn-lg open-modal-btn">
+        Quiero ver cómo funciona <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+    
+    <div class="hero-stats fade-up delay-200">
+      <div class="stat-item">
+        <strong>24/7</strong>
+        <span>Tu negocio nunca duerme</span>
+      </div>
+      <div class="stat-item">
+        <strong>7–12</strong>
+        <span>Días hasta tenerlo listo</span>
+      </div>
+      <div class="stat-item">
+        <strong>100%</strong>
+        <span>Garantía de satisfacción</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="alert-circle"></i> El problema</p>
+      <h2>El problema que tienen casi todos los negocios locales</h2>
+      <p class="section-sub">No es culpa tuya. Es que nadie te ha dado las herramientas adecuadas. Hasta ahora.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card glass-card fade-up">
+        <div class="problem-icon"><i data-lucide="clock-4"></i></div>
+        <strong>Pierdes clientes por no atenderles a tiempo</strong>
+        <p>Cada mensaje sin responder es una venta que se va a la competencia.</p>
+      </div>
+      <div class="problem-card glass-card fade-up delay-100">
+        <div class="problem-icon"><i data-lucide="repeat-2"></i></div>
+        <strong>Respondes los mismos mensajes una y otra vez</strong>
+        <p>Horarios, precios, disponibilidad… siempre lo mismo, todos los días.</p>
+      </div>
+      <div class="problem-card glass-card fade-up delay-200">
+        <div class="problem-icon"><i data-lucide="frown"></i></div>
+        <strong>Tu web no genera nada</strong>
+        <p>Tienes una web pero no capta clientes ni trabaja por ti cuando estás ocupado.</p>
+      </div>
+      <div class="problem-card glass-card fade-up delay-300">
+        <div class="problem-icon"><i data-lucide="moon"></i></div>
+        <strong>Cuando cierras, tu negocio desaparece</strong>
+        <p>Fuera de horario no hay nadie que atienda, y los clientes buscan a quien sí está.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMACION (COLORFUL) -->
+<section id="transformacion">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="zap"></i> La transformación</p>
+      <h2>Lo que cambia cuando trabajas con NEXO</h2>
+      <p class="section-sub">Del antes al después. Visible, medible y real.</p>
+    </div>
+    
+    <div class="comparison-container fade-up delay-100">
+      <div class="comparison-column before">
+        <div class="column-header">
+          <i data-lucide="frown" style="width: 28px; height: 28px;"></i> Antes
+        </div>
+        <ul class="comparison-list">
+          <li><i data-lucide="x"></i> Respondes mensajes manualmente</li>
+          <li><i data-lucide="x"></i> Tu web es un folleto sin vida</li>
+          <li><i data-lucide="x"></i> Horas perdidas en tareas repetitivas</li>
+          <li><i data-lucide="x"></i> Fuera de horario, negocio cerrado</li>
+          <li><i data-lucide="x"></i> Tecnología cara e inaccesible</li>
+        </ul>
+      </div>
+      <div class="comparison-column after">
+        <div class="column-header">
+          <i data-lucide="smile" style="width: 28px; height: 28px;"></i> Después con NEXO
+        </div>
+        <ul class="comparison-list">
+          <li><i data-lucide="check"></i> Un asistente IA lo hace por ti, 24/7</li>
+          <li><i data-lucide="check"></i> Tu web capta y atiende clientes sola</li>
+          <li><i data-lucide="check"></i> Tareas automatizadas en minutos</li>
+          <li><i data-lucide="check"></i> Tu negocio nunca duerme</li>
+          <li><i data-lucide="check"></i> Implementada, lista y funcionando</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICIO -->
+<section id="servicio">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="layers"></i> El servicio</p>
+      <h2>Qué hace exactamente NEXO por ti</h2>
+      <p class="section-sub">Todo implementado. Todo funcionando. Sin que tengas que tocar nada.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service-card glass-card fade-up">
+        <div class="service-icon-wrapper"><i data-lucide="monitor-smartphone"></i></div>
+        <h3>Webs con IA integrada</h3>
+        <p>Webs modernas con un webot activo 24/7 que responde, recoge datos y guía al cliente hacia la venta.</p>
+      </div>
+      <div class="service-card glass-card fade-up delay-100">
+        <div class="service-icon-wrapper"><i data-lucide="bot-message-square"></i></div>
+        <h3>Chatbot / Asistente virtual</h3>
+        <p>Un asistente entrenado con la información de tu negocio, que suena natural y atiende como si fueras tú.</p>
+      </div>
+      <div class="service-card glass-card fade-up delay-200">
+        <div class="service-icon-wrapper"><i data-lucide="workflow"></i></div>
+        <h3>Automatización de tareas</h3>
+        <p>Reservas, respuestas a reseñas, seguimiento de clientes, recordatorios… automatizados para siempre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="award"></i> Beneficios</p>
+      <h2>Lo que ganas realmente</h2>
+      <p class="section-sub">No solo tecnología. Tiempo, clientes y tranquilidad.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-item glass-card fade-up">
+        <div class="benefit-icon"><i data-lucide="hourglass"></i></div>
+        <div>
+          <h4>Tiempo libre</h4>
+          <p>Deja de responder lo mismo 30 veces al día. Tu IA lo hace sola.</p>
+        </div>
+      </div>
+      <div class="benefit-item glass-card fade-up delay-100">
+        <div class="benefit-icon"><i data-lucide="users"></i></div>
+        <div>
+          <h4>Clientes atendidos siempre</h4>
+          <p>Aunque sean las 11 de la noche, hay alguien respondiendo.</p>
+        </div>
+      </div>
+      <div class="benefit-item glass-card fade-up delay-200">
+        <div class="benefit-icon"><i data-lucide="globe"></i></div>
+        <div>
+          <h4>Web que trabaja por ti</h4>
+          <p>No solo un escaparate bonito. Una máquina de captar clientes.</p>
+        </div>
+      </div>
+      <div class="benefit-item glass-card fade-up">
+        <div class="benefit-icon"><i data-lucide="star"></i></div>
+        <div>
+          <h4>Imagen profesional</h4>
+          <p>Diferénciate de la competencia local que sigue en el siglo pasado.</p>
+        </div>
+      </div>
+      <div class="benefit-item glass-card fade-up delay-100">
+        <div class="benefit-icon"><i data-lucide="wrench"></i></div>
+        <div>
+          <h4>Sin complicaciones técnicas</h4>
+          <p>Nosotros lo montamos todo. Tú solo ves los resultados.</p>
+        </div>
+      </div>
+      <div class="benefit-item glass-card fade-up delay-200">
+        <div class="benefit-icon"><i data-lucide="trending-up"></i></div>
+        <div>
+          <h4>Resultados desde el primer mes</h4>
+          <p>No en 6 meses. Empiezas a notar el cambio desde la primera semana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="git-commit-horizontal"></i> Cómo trabajamos</p>
+      <h2>Así es trabajar con NEXO</h2>
+      <p class="section-sub">Desde la primera llamada hasta los resultados. Simple y sin sorpresas.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <span class="step-tag"><i data-lucide="calendar"></i> Día 1</span>
+          <h3>Diagnóstico gratuito</h3>
+          <p>Hablamos 30 minutos. Analizamos tu negocio, tus tareas y qué solución encaja mejor. Sin compromiso.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <span class="step-tag"><i data-lucide="calendar"></i> Días 1–2</span>
+          <h3>Propuesta personalizada</h3>
+          <p>Te enviamos un plan concreto con lo que vamos a implementar, los tiempos y el precio exacto.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <span class="step-tag"><i data-lucide="calendar"></i> Días 3–10</span>
+          <h3>Implementación</h3>
+          <p>Montamos tu web, configuramos el webot y automatizamos los procesos acordados. Tú no tienes que hacer nada.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <span class="step-tag"><i data-lucide="calendar"></i> Días 10–12</span>
+          <h3>Entrega y formación</h3>
+          <p>Te lo entregamos funcionando y te explicamos en 20 minutos cómo sacarle partido. Sin tecnicismos.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <span class="step-tag"><i data-lucide="calendar"></i> Mensual</span>
+          <h3>Soporte continuo</h3>
+          <p>Seguimos contigo cada mes para mejorar, ajustar y escalar lo que ya funciona.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="credit-card"></i> Precios</p>
+      <h2>Elige el plan que mejor encaja</h2>
+      <p class="section-sub">Pago único + mantenimiento mensual opcional. Sin permanencia.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="price-card glass-card fade-up">
+        <p class="plan-name">Básico</p>
+        <div class="plan-price">497<span>€</span></div>
+        <div class="plan-monthly"><i data-lucide="plus-circle" style="width:14px;height:14px;"></i> <strong>29 €/mes</strong> mantenimiento</div>
+        <p class="plan-desc">Ideal para negocios que quieren presencia digital profesional y un primer asistente automático.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> Web profesional moderna</li>
+          <li><i data-lucide="check"></i> Webot básico automático</li>
+          <li><i data-lucide="check"></i> Formulario de captación</li>
+          <li><i data-lucide="check"></i> Optimización en Google</li>
+          <li><i data-lucide="check"></i> Soporte por email</li>
+        </ul>
+        <button class="btn btn-outline btn-lg plan-btn open-modal-btn">Empezar con Básico</button>
+      </div>
+
+      <div class="price-card glass-card featured fade-up delay-100">
+        <div class="featured-badge">Más elegido</div>
+        <p class="plan-name" style="color: var(--accent-cyan);">Pro</p>
+        <div class="plan-price">897<span>€</span></div>
+        <div class="plan-monthly"><i data-lucide="plus-circle" style="width:14px;height:14px;"></i> <strong>49 €/mes</strong> mantenimiento</div>
+        <p class="plan-desc">Ideal para hostelería, talleres y negocios con flujo constante de clientes.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> Todo lo del plan Básico</li>
+          <li><i data-lucide="check"></i> Webot avanzado (FAQs, leads)</li>
+          <li><i data-lucide="check"></i> 2 automatizaciones de tareas</li>
+          <li><i data-lucide="check"></i> Integración WhatsApp Business</li>
+          <li><i data-lucide="check"></i> Soporte prioritario</li>
+        </ul>
+        <button class="btn btn-primary btn-lg plan-btn open-modal-btn">Empezar con Pro</button>
+      </div>
+
+      <div class="price-card glass-card fade-up delay-200">
+        <p class="plan-name">Premium</p>
+        <div class="plan-price">1.497<span>€</span></div>
+        <div class="plan-monthly"><i data-lucide="plus-circle" style="width:14px;height:14px;"></i> <strong>79 €/mes</strong> mantenimiento</div>
+        <p class="plan-desc">Para negocios que quieren que la IA se convierta en parte de su operativa diaria.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> Todo lo del plan Pro</li>
+          <li><i data-lucide="check"></i> Webot conversacional avanzado</li>
+          <li><i data-lucide="check"></i> 5 automatizaciones a medida</li>
+          <li><i data-lucide="check"></i> Estrategia de captación auto</li>
+          <li><i data-lucide="check"></i> Reunión mensual de progreso</li>
+        </ul>
+        <button class="btn btn-outline btn-lg plan-btn open-modal-btn">Empezar con Premium</button>
+      </div>
+
+    </div>
+
+    <div class="promo-banner glass-card fade-up">
+      <div class="promo-icon"><i data-lucide="gift"></i></div>
+      <div>
+        <p><strong>Oferta de lanzamiento:</strong> Los primeros 5 clientes reciben la <strong>optimización de Google My Business completamente gratis</strong> — un servicio valorado en 150 € que sitúa tu negocio en los primeros resultados del mapa local.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQS -->
+<section id="faqs">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label"><i data-lucide="help-circle"></i> Preguntas frecuentes</p>
+      <h2>Lo que suelen preguntarnos</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿Necesito saber de tecnología para usar esto? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">No. Nosotros nos encargamos de absolutamente todo. Tú solo ves los resultados y los clientes llegar.</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿Cuánto tiempo tarda en estar listo? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">Dependiendo del plan, entre 7 y 12 días laborables desde que confirmamos el proyecto y tenemos tu información base.</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿Funciona para cualquier tipo de negocio local? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">Sí. Hemos diseñado nuestros servicios pensando especialmente en hostelería, talleres, inmobiliarias, clínicas y comercios locales de la zona.</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿Qué pasa si no quedo satisfecho? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">Ofrecemos una garantía de satisfacción total. Si en los primeros 30 días no ves valor en el servicio, estudiamos juntos qué ajustar — o te devolvemos el dinero sin preguntas.</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿El webot puede hablar como si fuera yo? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">Sí. Personalizamos el tono y lo entrenamos con la información específica de tu negocio para que suene natural, educado y totalmente coherente con tu marca.</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">¿Qué incluye el mantenimiento mensual? <i data-lucide="chevron-down"></i></div>
+        <div class="faq-a">Incluye actualizaciones de seguridad, mejoras constantes del webot (se hace más inteligente), soporte técnico prioritario y revisión mensual del rendimiento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box fade-up">
+      <p class="section-label"><i data-lucide="rocket"></i> Empieza hoy</p>
+      <h2>¿Listo para que tu negocio trabaje solo?</h2>
+      <p>Una llamada de 30 minutos es todo lo que necesitas para ver cómo la IA puede cambiar tu negocio. Sin compromiso, sin tecnicismos.</p>
+      
+      <div class="cta-actions">
+        <button class="btn btn-primary btn-lg open-modal-btn">
+          Reservar llamada gratuita <i data-lucide="arrow-right"></i>
+        </button>
+        <div class="cta-email">
+          <i data-lucide="mail" style="width:16px;height:16px;"></i> O escríbenos a <a href="mailto:samuel@agencianexo.es">samuel@agencianexo.es</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODAL CALENDLY -->
+<div id="modal-overlay" style="
+  display:none; position:fixed; inset:0; z-index:999;
+  background:rgba(3,7,18,0.8); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  align-items:center; justify-content:center; padding:20px;
+  opacity: 0; transition: opacity 0.3s ease;
+">
+  <div class="modal-content" style="
+    background:#0f172a; border:1px solid rgba(0,229,195,0.3);
+    border-radius:24px; max-width:800px; width:100%;
+    position:relative; box-shadow:0 20px 80px rgba(0,229,195,0.15);
+    overflow:hidden; transform: scale(0.95); transition: transform 0.3s ease;
+  ">
+    <div style="
+      padding:24px 32px 20px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      display:flex; align-items:center; justify-content:space-between;
+      background: rgba(255,255,255,0.02);
+    ">
+      <div>
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;color:var(--accent-cyan);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+          <i data-lucide="phone-call" style="width:12px;height:12px;"></i> Llamada gratuita &middot; 30 minutos
+        </p>
+        <h3 style="font-family:var(--font-heading);font-size:1.3rem;font-weight:800;color:var(--text-main);letter-spacing:-0.02em;">Reserva tu hueco con NEXO</h3>
+      </div>
+      <button id="modal-close" style="
+        background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+        color:var(--text-muted); cursor:pointer;
+        width:40px; height:40px; border-radius:12px;
+        display:flex; align-items:center; justify-content:center;
+        transition: all 0.2s;
+      " onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.color='#ef4444';this.style.borderColor='rgba(239,68,68,0.2)'"
+         onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.color='var(--text-muted)';this.style.borderColor='rgba(255,255,255,0.1)'">
+         <i data-lucide="x"></i>
+      </button>
+    </div>
+    <!-- Calendly Widget - Se añadió &locale=es para forzar español -->
+    <div
+      class="calendly-inline-widget"
+      data-url="https://calendly.com/tienda-online-ssm/30min?hide_gdpr_banner=1&background_color=0f172a&text_color=f9fafb&primary_color=00e5c3&locale=es"
+      style="min-width:100%;height:660px;">
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 NEXO · <a href="https://agencianexo.es">agencianexo.es</a> · samuel@agencianexo.es</p>
+</footer>
+
+<!-- Script Calendly -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+<script>
+  // Inicializar Lucide Icons
+  lucide.createIcons();
+
+  // MODAL LOGIC
+  const overlay = document.getElementById('modal-overlay');
+  const modalContent = document.querySelector('.modal-content');
+  
+  function openModal() {
+    overlay.style.display = 'flex';
+    // Trigger reflow
+    void overlay.offsetWidth;
+    overlay.style.opacity = '1';
+    modalContent.style.transform = 'scale(1)';
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeModal() {
+    overlay.style.opacity = '0';
+    modalContent.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+  
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Attach modal to CTA buttons
+  document.querySelectorAll('a[href="#cta"], .plan-btn, .cta-nav, .open-modal-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      if(this.getAttribute('href') !== 'mailto:samuel@agencianexo.es') {
+        e.preventDefault();
+        openModal();
+      }
+    });
+  });
+
+  // FAQ TOGGLE
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // INTERSECTION OBSERVER FOR FADE-UP ANIMATIONS
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
